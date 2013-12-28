@@ -1,0 +1,70 @@
+\chapter{Authentication, Authorization, and Accounting}
+% Explain AAA and why we need it
+
+\section{Dependencies}
+
+\subsection{OpenNTPD}
+% Talk about a basic OpenNTPD setup
+One of the key components to any \gls{aaa} system is time.  Determining when a
+users' access is valid is integral to maintaining a secure system.  This helps
+to prevent replay attacks and prevent access using past (or future) expired
+credentials.
+
+\gls{openbsd} prefers the \gls{openntpd} implementation of the \gls{ntp} service
+because it is a free (as in freedom) and simple implementation.  Initially,
+\gls{openntpd} will be setup on the \gls{aaa} server in order to keep the
+\gls{aaa} services better in sync with the clock.  In the future, more advanced
+time servers will be setup.  At that point, the \gls{openntpd} server on the
+\gls{aaa} server will be setup to sync from those time servers.
+
+In order to activate a basic setup of \gls{openntpd} on \gls{openbsd}, the
+following line should be entered into the \verb=/etc/rc.conf.local= file:
+\begin{verbatim}
+ntpd_flags=
+\end{verbatim}
+Upon reboot, the \gls{openntpd} service will start automatically with the system
+and keep the clock in sync with the internet time servers.
+
+% Do I add a subsection here or later on for more advanced OpenNTPD topics?
+% Things like alternate time sources: GPS, Atomic Radio, Local Atomic (rubidium)
+
+\subsection{Domain Name Service}
+% We'll setup a DNS server on the kerberos domain controller.
+Another key component to any \gls{aaa} system is name resolution.  Name
+resolution allows client machines to find the key server to request credentials
+for access.  Without being able to find the key server, the key server is rather
+useless.  A number of people will say that it's better to hard code the IP
+address of the key server into the clients, but DNS keeps us from having to
+manually update that configuration.  Hard set IP addresses are not more secure
+than DNS, as both can be spoofed and modified on the network.
+
+% At some future point, move to another server with CARP and management scripts.
+
+\subsection{Dynamic Host Configuration Protocol}
+% Basic DHCP setup.  Should also make it handle IPv6 and putting the names into
+% DNS.
+
+% At some future point, move to another server with CARP and management scripts
+% (probably the same servers as DNS)
+
+\section{Kerberos 5}
+% Mention that Kerberos serves the Authentication role
+% Discuss a basic kerberos setup
+
+% Do I add subsections here for things like redundancy (CARP) here?
+
+\section{Network Information Service}
+% Mention that NIS/YP server the Authorization role
+% Lets use NIS/YP over LDAP
+
+% Do I add subsections here for things like redundancy (CARP) here?
+
+\section{Accounting - ??}
+% Is syslog sufficient?
+
+% Do I add subsections here for things like redundancy (CARP) here?
+
+\section{Certificate Authority}
+% Does it make sense to put this here?  Most of our connections will be secured
+% via SSL, so we should have a CA
+

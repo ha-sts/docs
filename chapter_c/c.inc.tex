@@ -1,0 +1,67 @@
+\chapter{Communication}
+
+\section{Firewall}
+% Setup an OpenBSD PF based firewall.  Reference the PF tutorial.
+For a firewall, an embedded computer with a few network interfaces has been
+installed with OpenBSD.  The Soekris units work very well with OpenBSD.  Since
+the firewall is a dedicated unit, and will only be running pf on top of the base
+kernel, most of base components don't need to be installed.  The following can
+be left out during the firewall installation:
+\begin{itemize}
+\item
+game??.tgz
+\item
+man??.tgz
+\item
+xbase??.tgz
+\item
+xetc??.tgz
+\item
+xshare??.tgz
+\item
+xfont??.tgz
+\item
+xserv??.tgz
+\end{itemize}
+The address on the external interface will be assigned via DHCP from the ISP,
+but the address on the internal interface will be statically set.  The static
+address on the internal interface will help facilitate the initial setup of the
+network and make sure that the internet is accessible in the event of failures
+elsewhere in the network.
+
+\subsection{PF}
+% The most important part of the firewall, the packet filter
+Initially the packet filter will be configured to pass the following protocols:
+\begin{itemize}
+\item
+SSH - tcp port 22
+\item
+DNS - udp port 53
+\item
+HTTP - tcp port 80
+\item
+NTP - udp port 123
+\item
+HTTPS - tcp port 443
+\end{itemize}
+DHCP traffic should be passed for the firewall itself, as DHCP will be used for
+the external interface.
+
+% Add the configuration editing here
+
+% Eventually should use DNS, NTP, and Kerberos from AAA Core, but for now, this
+% will be managed independently.
+
+\section{WiFi}
+% Setup a fairly secure WiFi network that is isolated from the home automation
+% systems network.
+
+\section{PBX}
+% Setup a PBX (asterisk? or freepbx?)
+
+\subsection{??}
+% Setup the PBX itself
+
+\subsection{SIP Handsets}
+% Setup the old Aircell SIP handsets (one wired and one wireless minimum)
+

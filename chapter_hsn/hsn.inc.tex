@@ -1,0 +1,56 @@
+\chapter{Hardware Specific Notes}
+Many pieces of hardware require knowledge of certain quirks and oddities to be able to deploy said hardware into a
+particular implementation.  This chapter is a catch all for oddities about various pieces of hardware used through out
+this home automation project.
+
+\section{Inovonics RDL-8500}
+% Inovonics RDL-8500 used originally for submetering (OpenBSD does not like this machine's serial ports)
+
+% PUT A PICTURE HERE
+
+\subsection{OpenBSD and serial ports}
+The single board computer inside the RDL-8500 contains a PCI bus based serial port expansion device (made on to the
+board instead of as a PCI card).  This device does not play well with the standard serial port driver during boot.  The
+issues observed thus far manifest themselves as a system hang at the following message:
+\begin{verbatim}
+Setting tty flags=
+\end{verbatim}
+The most elegant solution that has been proposed is to remove the lines from the \verb=/etc/ttys= file pertaining to the
+serial ports of the serial port expansion device.  This prevents the command \verb=ttyflags -a= from acting on poorly
+behaved device during boot.  It is easiest to comment out these lines by booting to the ramdisk kernel and using sed to
+comment out the lines.  An example follows:
+\begin{verbatim}
+boot> bsd.rd
+...
+# fsck /dev/wd0a
+...
+# mount /dev/wd0a /mnt
+# sed 's/tty02/#tty02' /mnt/etc/ttys > /mnt/etc/ttys.tmp
+# sed 's/tty03/#tty03' /mnt/etc/ttys.tmp > /mnt/etc/ttys.tmp2
+# sed 's/tty04/#tty04' /mnt/etc/ttys.tmp2 > /mnt/etc/ttys.tmp
+# sed 's/tty05/#tty05' /mnt/etc/ttys.tmp > /mnt/etc/ttys.tmp2
+# sed 's/tty06/#tty06' /mnt/etc/ttys.tmp2 > /mnt/etc/ttys.tmp
+# sed 's/tty07/#tty07' /mnt/etc/ttys.tmp > /mnt/etc/ttys.tmp2
+# less /mnt/etc/ttys.tmp2
+...
+# mv /mnt/etc/ttys.tmp2 /mnt/etc/ttys
+# umount /mnt
+# reboot
+...
+\end{verbatim}
+% The two temporary files is required because the file will be blank is sed output is redirected back to the input file.
+% NOTE: When moving from OpenBSD 5.3 to OpenBSD 5.4, the ports moved and required more to be included in the list.
+Once the system reboots, the system should no longer hang and should progress to a login prompt.  Keep in mind that the
+system will no longer accept dial-in sessions on the serial ports connected to the pci expansion device.  Any dial-in
+connection or terminal sessions will have to use one of the two serial ports built into the single board computer (i.e.
+\verb=/dev/tty00= and/or \verb=/dev/tty01=).
+
+\section{Flash Memory}
+% Discuss flash memory helpers that aren't specific to peticular devices
+
+\subsection{Temporary Filesystem in RAM}
+% Discuss moving /tmp to a ramdisk
+
+\subsubsection{OpenBSD}
+
+\subsubsection{Debian Linux}

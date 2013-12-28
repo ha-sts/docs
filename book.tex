@@ -1,0 +1,121 @@
+% Documentation for HA-STS, my home automation project.
+%
+% To build this document, run the following:
+% latex book && latex book && dvipdfm book
+\documentclass[letterpaper,twoside,12pt]{book}
+\usepackage{fancyhdr}
+\usepackage[letterpaper]{geometry}
+%\usepackage{lastpage}
+%\usepackage{tabularx}
+%\usepackage{multirow}
+%\usepackage{graphicx}
+%\usepackage{color}
+%\usepackage{float}
+%\usepackage[section]{placeins}
+\usepackage[section=subsection,numberedsection=nolabel,nonumberlist]{glossaries}
+
+% Document metadata
+\title{HA-STS \\ The automation of my home.}
+\author{Daniel Williams \\ \texttt{dwilliams@port8080.net}}
+\date{November 2013 - Present}
+
+% Format the headers and footers
+
+% Make the glossaries and add entries.  This should probably be broken out into
+% another file at some point.
+\makeglossaries
+%\renewcommand*{\glossaryname}{Definitions and Acronyms}
+
+\newacronym{aaa}{AAA}{Authentication, Authorization, and Accounting}
+\newglossaryentry{openbsd}{
+    name={OpenBSD},
+    description={An operating system considered by many to be the most secure
+    mainstream operating system pulicly available.  For more information, please
+    see the website at http://www.openbsd.org.}
+}
+\newglossaryentry{openntpd}{
+    name={OpenNTPD},
+    description={A time server implementation using \gls{NTP} as its transport
+    protocol.  This implementation is a free and simplified alternate to the
+    reference implementation which requires fewer resources to run.  For more
+    information, please see the website at http://www.openntpd.org.}
+}
+\newacronym{ntp}{NTP}{Network Time Protocol}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\chapter{Preface}
+This book is being written to plan, guide, and document the trials and
+tribulations of designing and building home automation systems.  Throughout
+this process, best practices and open standards will be followed as much as
+possible.  Where there are no best practices or open standards, suggestions will
+be documented in hopes of guiding others.
+
+\mainmatter
+\tableofcontents
+
+\chapter{Introduction}
+% Will put as much as possible on OpenBSD for security.
+
+%\section{Who am I?}
+
+\section{What is to be accomplished here?}
+% Building the systems component by component
+% Small, inexpensive, non-invasive
+% If possible, energy efficent
+%   this will focus primarily on lighting
+
+\section{Constraints and Considerations}
+% SECURITY SECURITY SECURITY
+% This is a home, make it as SECURE as possible
+% OpenBSD if possible
+% Review the man pages as they are THE documentation
+% COTS to keep price down
+
+\section{License and Disclaimers}
+% Because it should be done
+% Simplified BSD
+% Any other "you're a dumbass" disclaimers
+
+% Chapter - Authentication, Authorization, and Accounting
+\include{chapter_aaa/aaa.inc}
+
+% Chapter - Configuration Management
+\include{chapter_cm/cm.inc}
+
+% Chapter - Data Handling and Storage
+\include{chapter_dhs/dhs.inc}
+
+% Chapter - Communication
+\include{chapter_c/c.inc}
+
+% Chapter - User Interface
+\include{chapter_ui/ui.inc}
+
+% Chapter - Environmental Monitoring and Control
+\include{chapter_emc/emc.inc}
+
+% Chapter - Entertainment
+\include{chapter_e/e.inc}
+
+\appendix
+% Appendix Chapter - Hardware Support Notes
+% This chapter should be written to be publicly distributable.
+\include{chapter_hsn/hsn.inc}
+
+% Appendix Chapter - My Configurations
+% When compiling for public distribution, don't include this section or swap it
+% with a version that uses example.com
+%\include{chapter_mc/mc.inc}
+
+\backmatter
+\chapter{Last Notes}
+Don't copy and paste.  If you are implementing any of this, then it is most
+likely your own home or place of work, and you will want to make sure you
+understand the systems that you are working on.  Make sure you understand the
+systems and procedures and make sure you only implement what you know you can
+securely implement.  If you do it wrong, it's YOUR happy ass!
+
+\end{document}
