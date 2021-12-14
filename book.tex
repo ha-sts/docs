@@ -1,7 +1,6 @@
 % Documentation for HA-STS, my home automation project.
 %
-% To build this document, run the following:
-% latex book && latex book && dvipdfm book
+
 \documentclass[letterpaper,twoside,12pt]{book}
 \usepackage{fancyhdr}
 \usepackage[letterpaper]{geometry}
@@ -13,59 +12,61 @@
 %\usepackage{float}
 %\usepackage[section]{placeins}
 \usepackage[section=subsection,numberedsection=nolabel,nonumberlist]{glossaries}
+\usepackage[normalem]{ulem}
 
 % Document metadata
 \title{HA-STS \\ The automation of my home.}
 \author{Daniel Williams \\ \texttt{dwilliams@port8080.net}}
-\date{November 2013 - Present}
+\date{Somewhere...Sometime}
 
 % Format the headers and footers
 
-% Make the glossaries and add entries.  This should probably be broken out into
-% another file at some point.
-\makeglossaries
-%\renewcommand*{\glossaryname}{Definitions and Acronyms}
-
-\newacronym{aaa}{AAA}{Authentication, Authorization, and Accounting}
-\newglossaryentry{openbsd}{
-    name={OpenBSD},
-    description={An operating system considered by many to be the most secure
-    mainstream operating system pulicly available.  For more information, please
-    see the website at http://www.openbsd.org.}
-}
-\newglossaryentry{openntpd}{
-    name={OpenNTPD},
-    description={A time server implementation using \gls{NTP} as its transport
-    protocol.  This implementation is a free and simplified alternate to the
-    reference implementation which requires fewer resources to run.  For more
-    information, please see the website at http://www.openntpd.org.}
-}
-\newacronym{ntp}{NTP}{Network Time Protocol}
+% Make the glossaries and add entries.
+\input{glossary.tex}
 
 \begin{document}
 \frontmatter
 \maketitle
 
 \chapter{Preface}
-This book is being written to plan, guide, and document the trials and
-tribulations of designing and building home automation systems.  Throughout
-this process, best practices and open standards will be followed as much as
-possible.  Where there are no best practices or open standards, suggestions will
-be documented in hopes of guiding others.
+This book is being written to plan, guide, and document the trials and tribulations of designing and building my home
+automation systems.  Throughout this process, best practices and open standards \sout{will be followed as much as
+possible} may or may not be paid any attention.  Where there are no best practices or open standards, \sout{suggestions
+will be documented in hopes of guiding others} I'll do whatever seems useful with a reasonable amount of work.
 
 \mainmatter
 \tableofcontents
 
 \chapter{Introduction}
-% Will put as much as possible on OpenBSD for security.
-
-%\section{Who am I?}
 
 \section{What is to be accomplished here?}
+% FIXME: Move these lines to a requirements section:
+% Will put as much as possible on OpenBSD for security.
 % Building the systems component by component
 % Small, inexpensive, non-invasive
 % If possible, energy efficent
 %   this will focus primarily on lighting
+
+The initial start of this guide went WAY too far into building an entire secure network on which the home automation
+system would run.  This is likely way to in depth for most implementations.  Also, there are now way too many options
+and alternatives.  Case in point, I now run a Ubiquiti Unifi based system (none of that cloud access crap though) which
+handles firewall, vpn, local dns (though I could improve my settings here), wifi, vlans, and 10Gbit network, among other
+things.  If the Unifi platform is too expensive, or other hardware is already owned, there are plenty of project, such
+as pfSense, that can handle most of these items more efficiently than running all of the core networking services on
+OpenBSD.
+
+This version of the guide is going to pull back and focus on the design, implementation, and configuration of the core
+components of the automations systems themselves: the server, minimum network services (e.g. MQTT), sensors, and
+interfaces.  The idea is that this becomes more of a design document and less of a journal.  Either way, this is the
+musings of some random person, so use for your own peril.
+
+Another, more personal, goal of this document is practicing writing design and requirements documents.  There will be
+sections (e.g. a requirements section) that will sound more formal.  There will be others that will be more casual, such
+as this introduction.  I'm practicing writing, which is a skill that is sorely lacking in the Engineering realms.  I do
+not like writing.  I specifically chose my university (which happened to be a really good one) because it didn't have an
+essay question, or any other long hand writing, as part of the application.  After years of still not enjoying writing,
+I do realize it's a severly lacking skill in industry, and if I'd like to get to that ''Vice President'' title quicker,
+writing is a skill that I need to practice.
 
 \section{Constraints and Considerations}
 % SECURITY SECURITY SECURITY
@@ -73,6 +74,15 @@ be documented in hopes of guiding others.
 % OpenBSD if possible
 % Review the man pages as they are THE documentation
 % COTS to keep price down
+
+My initial notes for this section started with ''SECURITY SECURITY SECURITY'', which is a noble goal.  However,
+''security'' is one of those things in life for which everyone has an interesting, and often diverging, opinion.  The
+world isn't as cut and dry as my younger self would lead you to believe.  So while I'm going to keep ''security'' on the
+list of ideals, or noble goals or whatever you want to call it, I'm going to use it as a consideration for decision
+making and not the end-all-be-all of this project.  I want something useful, and as the old saying goes: the only secure
+system is an offline (as in turned off) system.
+
+% FIXME: Talk about the actuall constraints here.  Things like low cost aka COTS, open communication protocols, etc.
 
 \section{License and Disclaimers}
 % Because it should be done
