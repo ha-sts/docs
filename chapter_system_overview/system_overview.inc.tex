@@ -1,0 +1,24 @@
+% Explain the overall goals and loyout of the system
+
+% Single "server"
+%   - may be redundant servers running the same code and sharing one or more datastores and network services
+%   - the server should expose an API and contain an eventing system
+%   - use a plugin architecture to expand system
+%     - all funtionality built as plugins
+%     - plugins can depend on other plugins to expand funtionality
+%     - plugins may contain an application component and an user interface component
+%       - application component may or may not expose as a subset of the API
+%       - application component may or may not connect to the event subsystem
+%       - application component may or may not connect to the datastore subsystem
+%     - Initial plugins:
+%       - MQTT Core (MQTT connector to event subsystem)
+%       - ?? Should the datastore subsystem use a plugin to connect to a real datastore?  What should be in the datastore?  Config? history? state?
+%       - ?? Should historical data be stored via the datastore subsystem, a history/historical state subsystem, or a plugin directly?
+%   - Will be written in Python3 initially.  May move to C++ if more performance is needed.
+%   - Should be written as portable as possible.
+
+% Network Services
+
+% Sensors (really sensor framework)
+
+% Other interfaces

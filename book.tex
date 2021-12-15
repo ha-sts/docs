@@ -2,6 +2,7 @@
 %
 
 \documentclass[letterpaper,twoside,12pt]{book}
+
 \usepackage{fancyhdr}
 \usepackage[letterpaper]{geometry}
 %\usepackage{lastpage}
@@ -11,84 +12,50 @@
 %\usepackage{color}
 %\usepackage{float}
 %\usepackage[section]{placeins}
-\usepackage[section=subsection,numberedsection=nolabel,nonumberlist]{glossaries}
+\usepackage[section=chapter, numberedsection=nolabel, nonumberlist, nopostdot]{glossaries}
 \usepackage[normalem]{ulem}
+\usepackage{setspace}
+\usepackage[indent]{parskip}
 
-% Document metadata
+%%% Document metadata
 \title{HA-STS \\ The automation of my home.}
 \author{Daniel Williams \\ \texttt{dwilliams@port8080.net}}
 \date{Somewhere...Sometime}
 
-% Format the headers and footers
+%%% Format the headers, footers, etc
+\renewcommand{\baselinestretch}{1.1}
 
-% Make the glossaries and add entries.
+% Preventing hyphenation: https://tex.stackexchange.com/a/573715
+\tolerance=9999
+\emergencystretch=10pt
+\hyphenpenalty=10000
+\exhyphenpenalty=100
+
+%%% Make the glossaries and add entries.
 \input{glossary.tex}
 
+%%% The document itself.
 \begin{document}
-\frontmatter
+%\frontmatter
 \maketitle
 
-\chapter{Preface}
-This book is being written to plan, guide, and document the trials and tribulations of designing and building my home
-automation systems.  Throughout this process, best practices and open standards \sout{will be followed as much as
-possible} may or may not be paid any attention.  Where there are no best practices or open standards, \sout{suggestions
-will be documented in hopes of guiding others} I'll do whatever seems useful with a reasonable amount of work.
+%\chapter{Preface}
+%This book is being written to plan, guide, and document the trials and tribulations of designing and building my home
+%automation systems.  Throughout this process, best practices and open standards \sout{will be followed as much as
+%possible} may or may not be paid any attention.  Where there are no best practices or open standards, \sout{suggestions
+%will be documented in hopes of guiding others} I'll do whatever seems useful with a reasonable amount of work.
 
-\mainmatter
+%\mainmatter
 \tableofcontents
 
-\chapter{Introduction}
+% Chapter - Introduction
+\include{chapter_introduction.inc}
 
-\section{What is to be accomplished here?}
-% FIXME: Move these lines to a requirements section:
-% Will put as much as possible on OpenBSD for security.
-% Building the systems component by component
-% Small, inexpensive, non-invasive
-% If possible, energy efficent
-%   this will focus primarily on lighting
+% Chapter - System Overview
+\include{chapter_system_overview/system_overview.inc}
 
-The initial start of this guide went WAY too far into building an entire secure network on which the home automation
-system would run.  This is likely way to in depth for most implementations.  Also, there are now way too many options
-and alternatives.  Case in point, I now run a Ubiquiti Unifi based system (none of that cloud access crap though) which
-handles firewall, vpn, local dns (though I could improve my settings here), wifi, vlans, and 10Gbit network, among other
-things.  If the Unifi platform is too expensive, or other hardware is already owned, there are plenty of project, such
-as pfSense, that can handle most of these items more efficiently than running all of the core networking services on
-OpenBSD.
 
-This version of the guide is going to pull back and focus on the design, implementation, and configuration of the core
-components of the automations systems themselves: the server, minimum network services (e.g. MQTT), sensors, and
-interfaces.  The idea is that this becomes more of a design document and less of a journal.  Either way, this is the
-musings of some random person, so use for your own peril.
-
-Another, more personal, goal of this document is practicing writing design and requirements documents.  There will be
-sections (e.g. a requirements section) that will sound more formal.  There will be others that will be more casual, such
-as this introduction.  I'm practicing writing, which is a skill that is sorely lacking in the Engineering realms.  I do
-not like writing.  I specifically chose my university (which happened to be a really good one) because it didn't have an
-essay question, or any other long hand writing, as part of the application.  After years of still not enjoying writing,
-I do realize it's a severly lacking skill in industry, and if I'd like to get to that ''Vice President'' title quicker,
-writing is a skill that I need to practice.
-
-\section{Constraints and Considerations}
-% SECURITY SECURITY SECURITY
-% This is a home, make it as SECURE as possible
-% OpenBSD if possible
-% Review the man pages as they are THE documentation
-% COTS to keep price down
-
-My initial notes for this section started with ''SECURITY SECURITY SECURITY'', which is a noble goal.  However,
-''security'' is one of those things in life for which everyone has an interesting, and often diverging, opinion.  The
-world isn't as cut and dry as my younger self would lead you to believe.  So while I'm going to keep ''security'' on the
-list of ideals, or noble goals or whatever you want to call it, I'm going to use it as a consideration for decision
-making and not the end-all-be-all of this project.  I want something useful, and as the old saying goes: the only secure
-system is an offline (as in turned off) system.
-
-% FIXME: Talk about the actuall constraints here.  Things like low cost aka COTS, open communication protocols, etc.
-
-\section{License and Disclaimers}
-% Because it should be done
-% Simplified BSD
-% Any other "you're a dumbass" disclaimers
-
+% FIXME: The following are the old chapters.  These should be removed and reorganized.
 % Chapter - Authentication, Authorization, and Accounting
 \include{chapter_aaa/aaa.inc}
 
@@ -109,6 +76,7 @@ system is an offline (as in turned off) system.
 
 % Chapter - Entertainment
 \include{chapter_e/e.inc}
+% FIXME: End of old chapters
 
 \appendix
 % Appendix Chapter - Hardware Support Notes
@@ -120,12 +88,17 @@ system is an offline (as in turned off) system.
 % with a version that uses example.com
 %\include{chapter_mc/mc.inc}
 
-\backmatter
-\chapter{Last Notes}
-Don't copy and paste.  If you are implementing any of this, then it is most
-likely your own home or place of work, and you will want to make sure you
-understand the systems that you are working on.  Make sure you understand the
-systems and procedures and make sure you only implement what you know you can
-securely implement.  If you do it wrong, it's YOUR happy ass!
+% Appendix Chapter - Glossary and Acronyms
+\printglossaries
+
+% FIXME: This should probably go into the introduction if it's worth keeping.
+%\backmatter
+%\chapter{Last Notes}
+%% Write something better for this section.
+%Don't copy and paste.  If you are implementing any of this, then it is most
+%likely your own home or place of work, and you will want to make sure you
+%understand the systems that you are working on.  Make sure you understand the
+%systems and procedures and make sure you only implement what you know you can
+%securely implement.  If you do it wrong, it's YOUR happy ass!
 
 \end{document}

@@ -1,0 +1,43 @@
+\chapter{Introduction}
+
+% FIXME: Need a better first paragraph
+
+The initial start of this guide went WAY too far into building an entire secure network on which the home automation
+system would run.  This was likely way too in depth for most implementations.  Also, there are now way too many options
+and alternatives.  Case in point, I now run a Ubiquiti Unifi based system (none of that cloud access crap though) which
+handles firewall, vpn, local dns (though I could improve my settings here), wifi, vlans, and 10Gbit network, among other
+things.  If the Unifi platform is too expensive, or other hardware is already owned, there are plenty of projects, such
+as pfSense, that can handle most of these items more efficiently than running all of the core networking services
+manually on OpenBSD.
+
+This version of the guide is going to pull back and focus on the design, implementation, and configuration of the core
+components of the automations systems themselves: the server, minimum network services (e.g. MQTT), sensors, and
+interfaces.  The idea is that this becomes more of a design document and less of a journal.  Either way, this is the
+musings of some random person, so use for your own peril.
+
+Another, more personal, goal of this document is practicing writing design and requirements documents.  There will be
+sections (e.g. a requirements section) that will sound more formal.  There will be others that will be more casual, such
+as this introduction.  I'm practicing writing, which is a skill that is sorely lacking in the Engineering realms.  I do
+not like writing.  I specifically chose my university (which happened to be a really good one) because it didn't have an
+essay question, or any other long hand writing, as part of the application.  After years of still not enjoying writing,
+I do realize it's a severly lacking skill in industry, and if I'd like to get to that ''Vice President'' title more
+quickly, writing is a skill that I need to practice.
+
+My initial notes for a section called ''Constraints and Considerations'' started with ''SECURITY SECURITY
+SECURITY'', which is a noble goal.  However, security is one of those things in life for which everyone has an
+interesting, and often diverging, opinion.  The world isn't as cut and dry as my younger self would lead you to believe.
+So while I'm going to keep security on the list of ideals, or noble goals or whatever you want to call it, I'm going
+to use it as a consideration for decision making and not the end-all-be-all of this project.  I want something useful,
+and as the old saying goes: the only secure system is an offline (as in turned off) system.
+
+Some of the other noble goals from the previously mentioned ''Constraints and Considerations'' section were items such
+as using \gls{cots} hardware or open communication protocols.  Like security above, these can vary wildly with what is
+available and how the industry changes over time.  These will be considerations for decision making, but may very well
+be ignored if not convenient.  The old TP-Link light switches make a perfect example of this.  When I started working
+with those switches, there was a local network API which could be used without the need for interacting with TP-Link's
+servers, or the internet in general.  Responsive local access is exactly what I want.  However, these switches are no
+longer a viable option as a firmware update in late 2020 disabled the local control port and is forcing remote control
+through their servers.  This introduces a whole series of trust issues that are, in my opinion, much more of an issue
+that the ''security'' problem they tried to close.  It also makes these switches completely non-viable for this project.
+
+So, without futher ado, let's get into requirements and designs.
